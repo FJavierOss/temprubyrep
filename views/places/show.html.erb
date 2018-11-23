@@ -1,0 +1,100 @@
+# muchas cosas aqui, casi todo. Borrar linea again.
+<p id="notice"><%= notice %></p>
+<div class="ref-image" style="background-image: url(<%= @place.image %>);">
+
+  </div>
+
+</div>
+<div class="container">
+<div class="ref-title-place">
+  <h1>
+  <%= @place.name%>
+  </h1>
+  </div>
+
+<h1 style="padding-left: 25px;padding-top: 20px; padding-bottom: 15px">Descripción</h1>
+
+<div class="row-place" >
+  <div class="column-left-place">
+  <%= @place.description %>
+  </div>
+
+  <div class="column-right-place">
+    <h4>Rating:
+    <%= if @place.avg_rating; @place.avg_rating else "0" end %>
+    </h4>
+    <h4> Posts: <%= @place.posts.count %></h4>
+  </div>
+
+</div>
+
+<p>
+</p>
+
+
+
+<iframe
+  width=100%
+  height="300"
+  frameborder="0"
+  scrolling="yes"
+  marginheight="0"
+  marginwidth="0"
+  src="https://maps.google.com/maps?q=<%= @place.latitude.to_s%>,<%= @place.longitude.to_s%>&hl=es;z=14&amp;output=embed"
+ >
+ </iframe>
+ <br />
+ <small>
+   <a
+    href="https://maps.google.com/maps?q='+data.lat+','+data.lon+'&hl=es;z=14&amp;output=embed"
+    style="color:#0000FF;text-align:left"
+    target="_blank"
+   >
+     See map bigger
+   </a>
+ </small>
+
+
+
+
+
+<h1>Publicaciones</h1>
+  <% for post in @place.posts %>
+  <% @user = User.find(post.user_id) %>
+    <div class="post">
+      <div class="column-left-post">
+      <h1 style="text-align:center;padding-top:15%;padding-bottom:27%;">
+        <%= @user.name %>
+        <p></p>
+        <%= @user.last %>
+        </h1>
+        <p style="text-align:right;">
+        <%= link_to @user.username, user_path(post.user_id) %>
+        </p>
+      </div>
+
+      <div class="column-right-post">
+        <div class="date">
+          <%= post.created_at.strftime("%B %-d, %Y") %>
+        </div>
+        <h1><%= post.title %></h1>
+        <p style="padding-right:50px;"><%= post.content %></p>
+        <p ><%= post.rating %></p>
+        <p> Comentarios: <%= post.comments.count%> </p>
+        <p style="text-align:right;">
+          <%= link_to "Show", country_city_place_post_path(@place.country_id, @place.city_id, @place.id, post.id) %>
+          <%= link_to "Edit", edit_country_city_place_post_path(@place.country_id, @place.city_id, @place.id, post.id) %>
+        </p>
+      </div>
+
+    </div>
+  <% end %>
+
+<br><br>
+<p><%= link_to 'New Post', new_country_city_place_post_path(@place.country_id, @place.city_id, @place.id) %></p>
+
+
+<%= link_to 'Edit', edit_place_path(@place) %> |
+<%= link_to 'Back', country_city_path(@city.country_id, @city.id) %>
+
+</div>

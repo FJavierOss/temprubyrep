@@ -1,0 +1,37 @@
+# Borrar esta linea que va a tirar error, linea 13 y 14 hice un juego con el color del container, solo cambialo
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grupo26</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default" style="margin-bottom:-10px;">
+      <div class="container" style="background-color:rgb(248, 248, 248)">
+        <div class="navbar-header">
+          <%= link_to "TravelAdvisor", root_path, class: "navbar-brand" %>
+        </div>
+        <ul class="nav navbar-nav">
+          <% if current_user %>
+              <li><%= link_to 'Edit Profile',edit_user_registration_path %></li>
+              <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+          <% else %>
+              <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+              <li><%= link_to 'Log in', new_user_session_path %></li>
+          <% end %>
+
+        </ul>
+      </div>
+    </nav><%= yield %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+
+
+
+  </body>
+</html>

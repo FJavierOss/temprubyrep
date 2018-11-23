@@ -1,0 +1,72 @@
+# Borrar la linea, ver las diferencias y copiar segun guste, no lo he aplicado en el edit pero deberia ser lo mismo
+# y por edit me refiero al edit que deberia estar en la misma carpeta que este new
+
+<body style="background-color:rgb(51,51,51);" >
+<div class="form-box">
+<div class="form-h1">Sign up</div>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field" style="padding-top:10px;">
+    <%= f.label :username %><br />
+    <%= f.text_field :username, autofocus: true, autocomplete: "username" ,  style: 'width:100%;'%>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true, autocomplete: "name" ,  style: 'width:100%;' %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Last name" %><br />
+    <%= f.text_field :last, autofocus: true, autocomplete: "last" ,  style: 'width:100%;' %>
+  </div>
+
+  <div class = "field" , style='padding-top:5px;'>
+  <%= f.label "Sex", style: 'padding-right:10px;'%>
+  </div>
+  <div>
+  <%= f.radio_button :is_female, true %><%= f.label "Female" , style: 'padding-right:10px;'%>
+
+  <%= f.radio_button :is_female, false %><%= f.label "Male" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :date_of_birth %><br />
+    <%= f.date_select :date_of_birth %>
+  </div>
+
+  <div class="field">
+  <%= f.label :country %><br />
+  <%= f.country_select :country, {priority_countries: ["SG", "US"], include_blank: "select country"}, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="actions"  style='padding-top:10px;'>
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+<div  style='text-align:right;padding-bottom:10px;'>
+<%= render "devise/shared/links" %>
+</div>
+</div>
+</body>

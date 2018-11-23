@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+
+<div class="ref-image-country"  style="background-image: url(<%= @country.image %>);">
+  <div class="ref-text">
+    <h1 style="font-size:50px">Bienvenido a <%= @country.headline %></h1>
+
+  </div>
+
+</div>
+
+
+
+<div class="container">
+
+  <h3>Description</h3>
+<p>
+  <%= @country.context %>
+</p>
+<h4>Followers: <%= @country.user_suscriptors.count %></h4>
+<% if user_signed_in? %>
+<% if current_user.country_following?(@country) %>
+  <td><%= link_to "Unfollow", country_suscriptions_path(country_id: @country.id),
+    method: :delete %> </td>
+
+  <% else %>
+  <td><%= link_to "Follow", country_suscriptions_path(country_id: @country.id),
+    method: :post %></td>
+<% end %>
+<% end %>
+</div>
+
+
+<br><br>
+
+
+<div class="container">
+  <h1>Ciudades</h1>
+  <div class="card-deck">
+  <% for city in @country.cities %>
+  <div class="card" style="width: 40rem;">
+    <div class="card-body">
+      <img class="card-img-top" src=<%= city.image %> alt="Card image cap" style="width:100%">
+      <h2 class="card-title"><%= city.name %></h2>
+      <p class="card-text"><%= city.description %></p>
+      <a><%= link_to 'Show', country_city_path(@country.id, city.id) %></a>
+      <a><%= link_to 'Edit', edit_country_city_path(@country.id, city.id) %></a>
+
+
+    </div>
+  </div>
+  <% end %>
+
+
+
+<p><%= link_to 'New City', new_country_city_path(@country.id) %></p>
+
+<br><br>
+<%= link_to 'Edit', edit_country_path(@country) %> |
+<%= link_to 'Back', countries_path %>

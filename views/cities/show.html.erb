@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+
+<div class="ref-image" style="background-image: url(<%= @city.image %>);">
+  <div class="ref-text">
+    <h1 style="font-size:50px">Bienvenido a <%= @city.name %></h1>
+
+  </div>
+
+</div>
+
+
+<div class="container">
+  <h3>Description:</h3>
+<p>
+  <%= @city.description %>
+</p>
+</div>
+
+<br><br>
+
+
+<div class="container">
+  <h1>Lugares</h1>
+  <div class="card-deck">
+  <% for place in @city.places %>
+  <div class="card" style="width: 40rem;">
+    <div class="card-body">
+      <img class="card-img-top" src=<%= place.image %> alt="Card image cap" style="width:100%">
+      <h2 class="card-title"><%= place.name %></h2>
+      <p class="card-text"><%= place.description %></p>
+      <a><%= link_to "Show", country_city_place_path(@city.country_id, @city.id, place.id) %></a>
+      <a><%= link_to "Edit", edit_country_city_place_path(@city.country_id, @city.id, place.id) %></a>
+    </div>
+  </div>
+  <% end %>
+
+
+
+<p><%= link_to 'New Place', new_country_city_place_path(@city.country_id, @city.id) %></p>
+
+<br><br>
+
+
+
+<br><br>
+
+<%= link_to 'Edit', edit_city_path(@city) %> |
+<%= link_to 'Back', country_path(@city.country_id) %>

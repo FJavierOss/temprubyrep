@@ -1,0 +1,38 @@
+# esto queda a la espera al diseño de los comentarios y las actualizaciones que ustedes han hecho.
+# pero igual se cambiaron un par de cosas
+<p id="notice"><%= notice %></p>
+
+<div class="container">
+
+<% @user = User.find(@post.user_id) %>
+  <div class="post">
+    <div class="column-left-post">
+    <h1 style="text-align:center;padding-top:15%;padding-bottom:20%;">
+      <%= @user.name %>
+      <p></p>
+      <%= @user.last %>
+      </h1>
+      <p style="text-align:right;">
+      <%= link_to @user.username, user_path(@post.user_id) %>
+      </p>
+    </div>
+
+    <div class="column-right-post">
+      <div class="date">
+        <%= @post.created_at.strftime("%B %-d, %Y") %>
+      </div>
+      <h1><%= @post.title %></h1>
+      <p style="padding-right:50px;"><%= @post.content %></p>
+      <p ><%= @post.rating %></p>
+
+
+    </div>
+    </div>
+
+<p> Comentarios: <%= @post.comments.count%> </p>
+<%= render 'comments/comment' %>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', :back %>
+
+</div>
