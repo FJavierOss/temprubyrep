@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grupo26</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default" style="margin-bottom:-10px;">
+      <div class="container" style="background-color:rgb(248, 248, 248)">
+        <div class="navbar-header">
+          <%= link_to "TravelAdvisor", root_path, class: "navbar-brand" %>
+        </div>
+        <ul class="nav navbar-nav">
+          <% if current_user %>
+              <li><%= link_to 'Edit Profile',edit_user_registration_path %></li>
+              <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+          <% else %>
+              <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+              <li><%= link_to 'Log in', new_user_session_path %></li>
+          <% end %>
+
+        </ul>
+
+
+
+
+
+        
+        <div class="dropdown">
+
+        <button onclick="myFunction()" class="dropbtn">Busqueda</button>
+
+          <div id="myDropdown" class="dropdown-content">
+
+            <a><%= form_tag(countries_path, method: :get) do %> País: <%= text_field_tag :search  %> <%= submit_tag 'Search' %>
+          <% end %></a>
+            <a><%= form_tag(cities_path, method: :get) do %>
+              Ciudad: <%= text_field_tag :search  %>
+              <%= submit_tag 'Search' %>
+            <% end %></a>
+            <a><%= form_tag(places_path, method: :get) do %>
+              Lugar: <%= text_field_tag :search  %>
+              <%= submit_tag 'Search' %>
+            <% end %></a>
+            <a><%= form_tag(places_path, method: :get) do %>
+              Lugar: <%= text_field_tag :search  %>
+              <%= submit_tag 'Search' %>
+            <% end %></a>
+
+          </div>
+        </div>
+        <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+        }
+        </script>
+
+
+
+
+
+      </div>
+    </nav><%= yield %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+
+
+
+  </body>
+</html>
