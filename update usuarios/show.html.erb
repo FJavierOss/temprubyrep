@@ -1,0 +1,246 @@
+<body style="background-color:rgb(233,233,233);">
+
+<div class="user-box">
+<div class="user-descrip">
+  <div class="column-left-user">
+    <h1 class="round-image-user"><%= image_tag(@user.avatar.url(:medium)) %></h1>
+    <h1><%= @user.username %></h1>
+  </div>
+
+
+  <div class="column-right-user">
+    <%= link_to "Edit Profile", edit_user_registration_path, class: 'button-user' %>
+    <div class="user-name-box">
+    <h2> <%= @user.name + " "%> <%= @user.last %> </h2>
+    <div class="user-mail"> <%= @user.email%></div>
+    </div>
+    <h4> <%= if @user.is_female; "Mujer" else "Hombre" end %> , de
+      <% age = Date.today.year - @user.date_of_birth.year
+    age -= 1 if Date.today < @user.date_of_birth.day + age.years %>
+      <%= age%> años, proveniente de
+    <%= link_to @user.country, country_path(@user.country) %></h4>
+
+    <% if user_signed_in? && current_user != @user %>
+      <% if current_user.follows?(@user) %>
+        <%= link_to "Unfollow", unfollow_user_path(@user)  %>
+
+        <% else %>
+        <%= link_to "Follow", follow_user_path(@user) %>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>
+</div>
+
+<div class="user-descrip">
+<div class="user-info-box">
+
+<div class="user-info-title">Info</div>
+
+<h4><%= @user.followers(User).count %></h4>
+<p></p>
+<h5> Followers </h5>
+<h4><%= @user.followees(User).count %></h4>
+<p></p>
+<h5> Following</h5>
+<h4><%= @user.popularity_c + @user.popularity_p%></h4>
+<p></p>
+<h5>Popularity</h5>
+<h4><%= @user.posts.count + @user.city_posts.count%></h4>
+<p></p>
+<h5>Posts</h5>
+<h4><%= @user.cp_comments.count + @user.comments.count%></h4>
+<p></p>
+<h5>Comments</h5>
+
+<h4>Following countries<%= @user.followees(Country).count %></h4>
+</div>
+
+<br>
+
+<br>
+
+<div class="user-data-box">
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" style="color:rgb(100,100,100);
+      background-color:rgb(243,243,243);"
+       href="#"> Publicaciones favoritas en <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#submenu1">Ciudades</a></li>
+        <li><a href="#submenu2">Lugares</a></li>
+      </ul>
+    </li>
+    <li><a data-toggle="tab" href="#menu2">Publicaciones en</a></li>
+  </ul>
+
+  <script>
+  function myFunction() {
+      var x = document.getElementById("submenu1");
+      if (x.style.display === "none") {
+          x.style.display = "block";
+      } else {
+          x.style.display = "none";
+      }
+  }
+  </script>
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <h3>HOME</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    <div id="submenu1">
+      <h3>Ciudades</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Menu 2</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    </div>
+  </div>
+<h1>Publicaciones favoritas de ciudades</h1>
+  <% @user.favorite_city_posts.each do |favorite_city_post| %>
+    <% @city_post = favorite_city_post.city_post %>
+    <% @city = City.find(@city_post.city_id) %>
+    <% @country = Country.find(@city.country_id) %>
+    <table>
+      <thead>
+        <tr>
+          <th width=10%>City</th>
+          <th width=10%>Country</th>
+          <th width=10%>Opinion</th>
+          <th width=50%>Content</th>
+          <th width=10%>Given rating</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td><%= @city.name %></td>
+        <td><%= @country.headline %></td>
+        <td><%= @city_post.title %></td>
+        <td><%= @city_post.content %></td>
+        <td><%= @city_post.rating %></td>
+        <td><%= link_to 'Show', country_city_path(@country.id, @city.id) %></td>
+        <td><%= link_to 'Edit', edit_country_city_city_post_path(@city.country_id, @city.id, @city_post.id) if can? :manage, @city_post %></td>
+      </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+<br><br><br>
+<h1>Publicaciones favoritas de lugares</h1>
+  <% @user.favorite_posts.each do |favorite_post| %>
+    <% @post = favorite_post.post %>
+    <% @place = Place.find(@post.place_id) %>
+    <% @city = City.find(@post.city_id) %>
+    <% @country = Country.find(@city.country_id) %>
+    <table>
+      <thead>
+        <tr>
+          <th width=10%>Place</th>
+          <th width=10%>City</th>
+          <th width=10%>Opinion</th>
+          <th width=50%>Content</th>
+          <th width=10%>Given rating</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td><%= @place.name %></td>
+        <td><%= @city.name %></td>
+        <td><%= @post.title %></td>
+        <td><%= @post.content %></td>
+        <td><%= @post.rating %></td>
+        <td><%= link_to 'Show', country_city_place_post_path(@place.country_id, @place.city_id, @place.id, @post.id) %></td>
+        <td><%= link_to 'Edit', edit_country_city_place_post_path(@place.country_id, @place.city_id, @place.id, @post.id) if can? :manage, @post %></td>
+      </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+<br><br><br>
+<h1>Publicaciones en ciudades</h1>
+    <% @countries.each do |country| %>
+      <% country.cities.each do |city| %>
+        <% for city_post in city.city_posts %>
+        <% if city_post.user_id == @user.id %>
+          <% @city = City.find(city_post.city_id) %>
+          <% @country = Country.find(@city.country_id) %>
+            <table>
+              <thead>
+                <tr>
+                  <th width=10%>City</th>
+                  <th width=10%>Country</th>
+                  <th width=10%>Opinion</th>
+                  <th width=50%>Content</th>
+                  <th width=10%>Given rating</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              <tr>
+                <td><%= @city.name %></td>
+                <td><%= @country.headline %></td>
+                <td><%= city_post.title %></td>
+                <td><%= city_post.content %></td>
+                <td><%= city_post.rating %></td>
+                <td><%= link_to 'Show', country_city_path(@country.id, @city.id) %></td>
+                <td><%= link_to 'Edit', edit_country_city_city_post_path(@city.country_id, @city.id, city_post.id) if can? :manage, city_post %></td>
+              </tr>
+              </tbody>
+            </table>
+        <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+<br><br><br>
+<h1>Publicaciones en lugares</h1>
+    <% @countries.each do |country| %>
+      <% country.cities.each do |city| %>
+        <% city.places.each do |place| %>
+        <% for post in place.posts %>
+        <% if post.user_id == @user.id %>
+          <% @city = City.find(city.id) %>
+          <% @place = Place.find(place.id) %>
+          <% @country = Country.find(@city.country_id) %>
+            <table>
+              <thead>
+                <tr>
+                  <th width=10%>Place</th>
+                  <th width=10%>City</th>
+                  <th width=10%>Opinion</th>
+                  <th width=50%>Content</th>
+                  <th width=10%>Given rating</th>
+                  <th width=10%>Country</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              <tr>
+                <td><%= @place.name %></td>
+                <td><%= @city.name %></td>
+                <td><%= post.title %></td>
+                <td><%= post.content %></td>
+                <td><%= post.rating %></td>
+                <td><%= @country.headline %></td>
+                <td><%= link_to 'Show', country_city_place_post_path(@place.country_id, @place.city_id, @place.id, post.id) %></td>
+                <td><%= link_to 'Edit', edit_country_city_place_post_path(@place.country_id, @place.city_id, @place.id, post.id) if can? :manage, post %></td>
+              </tr>
+              </tbody>
+            </table>
+        <% end %>
+        <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  </div>
+  </div>
+
+</body>
