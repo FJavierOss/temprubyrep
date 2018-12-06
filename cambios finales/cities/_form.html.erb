@@ -1,0 +1,36 @@
+Aqui lo que se cambio fue agregar ", style: 'width:100%;'" al final del form.text... 
+Con esto se arregla la vista del edit y el new de las ciudades
+
+
+<%= form_with(url: (@city.new_record? ? [@country, @city] : country_city_path), model: @city, local: true) do |form| %>
+  <% if city.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(city.errors.count, "error") %> prohibited this city from being saved:</h2>
+
+      <ul>
+      <% city.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field" style="padding-top:20px;">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :city_name, style: 'width:100%;'%>
+  </div>
+
+  <div class="field" style="padding-top:10px;">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :city_description, style: 'width:100%;' %>
+  </div>
+
+  <div class="field" style="padding-top:10px;">
+    <%= form.label :image %>
+    <%= form.text_field :image, id: :citye_image, style: 'width:100%;' %>
+  </div>
+
+  <div class="actions" style="text-align:left;padding-top:10px;">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+Ubicacion app/assets/stylesheets/
+Se muestran solo los estilos cambiados de la guia de estilo. Reemplazar los antiguos por los que aparecen aca
+
+
+
+Aca se quitaron los padding y eso soluciona el tema del search que se comia las palabras de busqueda
+
+.dropdown-toggle {
+    background-color: #53DEBE;
+    font-family: 'Nunito Sans';
+    text-transform: uppercase;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    border: #53DEBE;
+    cursor: pointer;
+}
+
+
+
+Esta es nueva, es para los post que aparecen en el profile de los usuarios
+
+.sq-image-user {
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    overflow: hidden;
+    margin: 20%;
+    img { width: 100% }
+}
