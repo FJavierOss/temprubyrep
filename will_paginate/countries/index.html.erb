@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+
+<div class="container">
+<h1>Countries</h1>
+
+<div class="card-deck">
+<% @countries.each do |country| %>
+  <div class="card" style="width: 37rem;">
+    <div class="card-body">
+      <img class="card-img-top" src=<%= country.image %> alt="Card image cap" style="width:100%">
+      <h2 class="card-title"><%= country.headline %></h2>
+      <p class="card-text"><%= country.context.first(150) %><%= if country.context.length > 150; "..." else "" end %></p>
+      <p><a><%= link_to 'Show', country %></a>
+      <a><%= link_to 'Edit', edit_country_path(country) if can? :manage, country %></a>
+      <a><%= link_to 'Destroy', country, method: :delete, data: { confirm: 'Are you sure?' } if can? :manage, country %></a>
+      </p>
+    </div>
+  </div>
+<% end %>
+</div>
+<p>
+<br><br>
+<%= link_to 'New Country', new_country_path if can? :manage, Country %> |
+<%= link_to 'Home', root_path %>
+</p>
+
+
+############### Con esta linea basta para hacer la magia del will_paginate
+############### por regla general el will_paginate funciona bien con
+############### @loquesea.each do |loquesea|. 
+<%= will_paginate @countries %>
+
+</div>

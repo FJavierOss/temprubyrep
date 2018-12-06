@@ -1,0 +1,28 @@
+Intrucciones para usar will_paginate
+
+
+Numero uno
+
+Agregar a Gemfile
+gem 'will_paginate', '~> 3.1.1'
+gem 'will_paginate-bootstrap' 
+
+
+Numero dos
+
+Instalrlos como cualquier otra gema
+
+
+Numero tres
+
+El patron general que se utiliza para usar el will_paginate en el codigo se encontrara en modificaciones que se hacen a los distintos controladores, show e index. Se colocaran los cambios de cada uno con "#" señalando donde se hicieron los cambios y porque
+
+Numero cuatro
+
+Copiar y pegar
+
+
+Numero cinco
+
+Las instrucciones explicadas seran principalmente en countries, en el resto se repiten los pasos nada mas
+

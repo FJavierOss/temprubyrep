@@ -1,0 +1,108 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container">
+  <br>
+<div class="ref-image-country"  style="background-image: url(<%= @country.image %>);">
+  <div class="ref-text">
+    <h1 style="font-size:50px">Welcome to <%= @country.headline %></h1>
+
+  </div>
+</div>
+<br>
+</div>
+<br>
+<div class="container">
+
+  <h3><span class= 'custom-underline-1'>Description</span></h3>
+<p>
+  <%= @country.context %>
+</p>
+
+<h4>Followers: <%= @country.followers(User).count %></h4>
+<% if user_signed_in? %>
+<% if current_user.follows?(@country) %>
+  <%= button_to( "Unfollow", unfollow_country_path(@country), class: "btn btn-default", method: :get)%>
+  <% else %>
+  <%= button_to( "Follow", follow_country_path(@country), class: "btn btn-primary", style: "background-color:#53DEBE;color:#FFFFFF;", method: :get)%>
+<% end %>
+<% end %>
+<br><br>
+<p><a><%= link_to 'Edit Country', edit_country_path(@country) if can? :manage, @country %></a> |
+<a><%= link_to 'Go Back', countries_path %></a></p>
+
+<br><br>
+
+
+<button type="button" class="dropbtn btn-block" data-toggle="collapse" data-target="#demo">See it on the map!</button>
+  <div id="demo" class="collapse">
+    <br>
+    <iframe
+      width=100%
+      height="350"
+      frameborder="0"
+      scrolling="yes"
+      marginheight="0"
+      marginwidth="10"
+
+      src="https://maps.google.com/maps?q=<%= @country.headline%>&hl=es;z=14&amp;output=embed"
+     >
+     </iframe>
+     <br />
+     <small>
+       <a
+        href="https://maps.google.com/maps?q='+data.lat+','+data.lon+'&hl=es;z=14&amp;output=embed"
+        style="color:#0000FF;text-align:center"
+        target="_blank"
+       >
+         <button type="button" class="btn btn-link">See map bigger</button>
+       </a>
+     </small>
+     </div>
+     <br>
+  </div>
+
+<br>
+<div class="container">
+  <h1>Cities</h1>
+  <div class="card-deck">
+
+
+    ################ Aca importante, esta linea se cambio para que funcionara
+    ################ @cities.each do |city| es clave, porque de la otra forma tira error
+  <% @cities.each do |city|%>
+  <% @posts = city.city_posts %>
+  <div class="card">
+    <div class="card-body">
+      <img class="card-img-top" src=<%= city.image %> alt="Card image cap" style="width:100%">
+      <h2><%= city.name %></h2>
+      <p class="av_rat">
+        <% if @posts.average(:rating) == nil %>
+        <%= 0.0 %>
+        <% else %>
+        <%= @posts.average(:rating).round(2) %>
+        <% end %>
+      </p>
+      <p><%= city.description.first(150) %><%= if city.description.length > 150; "..." else "" end %></p>
+      <p>
+      <a><%= link_to "Show", country_city_path(@country.id, city.id) %> | </a>
+      <a><%= link_to "Edit", edit_country_city_path(@country.id, city.id) if can? :manage, @country %> | </a>
+      <a><%= link_to "Destroy", country_city_path(@country.id, city.id), method: :delete, data: { confirm: 'Are you sure?' } if can? :manage, @country %></a>
+      </p>
+
+    </div>
+  </div>
+  <% end %>
+
+  ############Esta linea para implementar el will_paginate, @cities esta definida
+  ############ desde el controlador con el show, por lo que no hay problemas
+  <%= will_paginate @cities %>
+
+  </div>
+
+
+<br>
+<p><%= link_to 'New City', new_country_city_path(@country.id) if can? :manage, @country %> |
+<%= link_to 'Go Back', countries_path %></p>
+
+<br>
+</div>
